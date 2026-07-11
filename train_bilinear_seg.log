@@ -1,0 +1,156 @@
+
+==================================================
+Starting at 2026-07-11 11:30:25
+Configuration:
+model:
+  _target_: src.upsampler.BilinearUpsampler
+  feature_dim: ${get_feature:${backbone.name}}
+  name: bilinear
+backbone:
+  _target_: src.backbone.PretrainedViTWrapper
+  name: vit_small_patch14_dinov2.lvd142m
+  norm: true
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 0.0005
+  betas:
+  - 0.9
+  - 0.999
+  weight_decay: 1.0e-05
+loss:
+  _target_: src.loss.Loss
+  loss_type: cosine_mse
+  dim: ${model.feature_dim}
+train_dataset:
+  _target_: dataloader.ImageDataset
+  root: ${dataroot}/train
+  root_cache: null
+val_dataset:
+  _target_: dataloader.ImageDataset
+  root: ${dataroot}/val
+  root_cache: null
+train_dataloader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ${dataset.train}
+  batch_size: 2
+  shuffle: true
+  worker_init_fn:
+    _target_: utils.training.seed_worker
+  num_workers: 8
+  pin_memory: true
+val_dataloader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ${dataset.val}
+  batch_size: 1
+  shuffle: true
+  worker_init_fn:
+    _target_: utils.training.seed_worker
+  num_workers: 8
+  pin_memory: true
+img_size: 448
+epochs: 1
+max_steps: 100000
+project_root: ${hydra:runtime.cwd}
+dataroot: ${project_root}/data/imagenet
+bfloat16: true
+ratio: random
+sanity: false
+dataset_evaluation:
+  _target_: evaluation.dataset.voc.VOCDataset
+  root: ${project_root}/data/
+  split: train
+  year: '2012'
+  download: false
+  include_labels: true
+  num_classes: 21
+  tag: voc
+eval:
+  task: seg
+  model_ckpt: null
+num_epochs: 5
+target_size: ${img_size}
+metrics:
+  seg:
+    num_classes: ${dataset_evaluation.num_classes}
+  depth:
+    min_depth: 0.001
+    max_depth: 10
+
+Using device: cuda
+
+Processing seg task:
+
+Image size: 448
+Train Dataset size: 1464
+Val Dataset size: 1449
+Training classifier... ./checkpoints/seg/bilinear.pth not found
+
+Number of optimized parameters: 8,085
+Training for 5 epochs
+
+Training model epoch 1...
+Iteration 100 - Loss: 1.837039 - LR: 4.99098e-04 - Elapsed Time: 0:00:06
+Iteration 200 - Loss: 1.230587 - LR: 4.96362e-04 - Elapsed Time: 0:00:12
+Iteration 300 - Loss: 0.980326 - LR: 4.91811e-04 - Elapsed Time: 0:00:17
+Iteration 400 - Loss: 0.829166 - LR: 4.85481e-04 - Elapsed Time: 0:00:23
+Iteration 500 - Loss: 0.716640 - LR: 4.77416e-04 - Elapsed Time: 0:00:28
+Iteration 600 - Loss: 0.648885 - LR: 4.67677e-04 - Elapsed Time: 0:00:34
+Iteration 700 - Loss: 0.597551 - LR: 4.56335e-04 - Elapsed Time: 0:00:39
+Iteration 732 - Loss: 0.581263 - LR: 4.52380e-04 - Elapsed Time: 0:00:41
+Epoch 1 Summary: Loss = 0.581263 - LR = 4.52e-04
+Evaluating model...
+Results: {'accuracy': 0.9322766065597534, 'iou': 0.7300217151641846}
+Training model epoch 2...
+Iteration 100 - Loss: 0.255739 - LR: 4.39052e-04 - Elapsed Time: 0:01:22
+Iteration 200 - Loss: 0.234334 - LR: 4.24332e-04 - Elapsed Time: 0:01:28
+Iteration 300 - Loss: 0.235124 - LR: 4.08329e-04 - Elapsed Time: 0:01:33
+Iteration 400 - Loss: 0.227444 - LR: 3.91159e-04 - Elapsed Time: 0:01:39
+Iteration 500 - Loss: 0.215249 - LR: 3.72950e-04 - Elapsed Time: 0:01:44
+Iteration 600 - Loss: 0.208805 - LR: 3.53836e-04 - Elapsed Time: 0:01:50
+Iteration 700 - Loss: 0.209764 - LR: 3.33957e-04 - Elapsed Time: 0:01:56
+Iteration 732 - Loss: 0.208102 - LR: 3.27458e-04 - Elapsed Time: 0:01:57
+Epoch 2 Summary: Loss = 0.208102 - LR = 3.27e-04
+Evaluating model...
+Results: {'accuracy': 0.9434399008750916, 'iou': 0.7736994028091431}
+Training model epoch 3...
+Iteration 100 - Loss: 0.155196 - LR: 3.06795e-04 - Elapsed Time: 0:02:38
+Iteration 200 - Loss: 0.157697 - LR: 2.85714e-04 - Elapsed Time: 0:02:44
+Iteration 300 - Loss: 0.164014 - LR: 2.64370e-04 - Elapsed Time: 0:02:50
+Iteration 400 - Loss: 0.165193 - LR: 2.42919e-04 - Elapsed Time: 0:02:55
+Iteration 500 - Loss: 0.170791 - LR: 2.21522e-04 - Elapsed Time: 0:03:01
+Iteration 600 - Loss: 0.171188 - LR: 2.00333e-04 - Elapsed Time: 0:03:06
+Iteration 700 - Loss: 0.169746 - LR: 1.79511e-04 - Elapsed Time: 0:03:12
+Iteration 732 - Loss: 0.168336 - LR: 1.72950e-04 - Elapsed Time: 0:03:14
+Epoch 3 Summary: Loss = 0.168336 - LR = 1.73e-04
+Evaluating model...
+Results: {'accuracy': 0.9460892081260681, 'iou': 0.7879610061645508}
+Training model epoch 4...
+Iteration 100 - Loss: 0.130579 - LR: 1.52844e-04 - Elapsed Time: 0:03:55
+Iteration 200 - Loss: 0.141760 - LR: 1.33454e-04 - Elapsed Time: 0:04:01
+Iteration 300 - Loss: 0.146127 - LR: 1.14922e-04 - Elapsed Time: 0:04:06
+Iteration 400 - Loss: 0.153246 - LR: 9.73844e-05 - Elapsed Time: 0:04:12
+Iteration 500 - Loss: 0.152834 - LR: 8.09706e-05 - Elapsed Time: 0:04:18
+Iteration 600 - Loss: 0.152930 - LR: 6.58015e-05 - Elapsed Time: 0:04:23
+Iteration 700 - Loss: 0.152363 - LR: 5.19887e-05 - Elapsed Time: 0:04:29
+Iteration 732 - Loss: 0.152011 - LR: 4.78720e-05 - Elapsed Time: 0:04:31
+Epoch 4 Summary: Loss = 0.152011 - LR = 4.77e-05
+Evaluating model...
+Results: {'accuracy': 0.9479802250862122, 'iou': 0.7940737009048462}
+Training model epoch 5...
+Iteration 100 - Loss: 0.137042 - LR: 3.60035e-05 - Elapsed Time: 0:05:12
+Iteration 200 - Loss: 0.137899 - LR: 2.57107e-05 - Elapsed Time: 0:05:17
+Iteration 300 - Loss: 0.142341 - LR: 1.70694e-05 - Elapsed Time: 0:05:23
+Iteration 400 - Loss: 0.142056 - LR: 1.01433e-05 - Elapsed Time: 0:05:28
+Iteration 500 - Loss: 0.145588 - LR: 4.98323e-06 - Elapsed Time: 0:05:34
+Iteration 600 - Loss: 0.145270 - LR: 1.62734e-06 - Elapsed Time: 0:05:40
+Iteration 700 - Loss: 0.144436 - LR: 1.00287e-07 - Elapsed Time: 0:05:45
+Iteration 732 - Loss: 0.144235 - LR: 9.20974e-11 - Elapsed Time: 0:05:47
+Epoch 5 Summary: Loss = 0.144235 - LR = 0.00e+00
+Evaluating model...
+Results: {'accuracy': 0.9481217861175537, 'iou': 0.7947447299957275}
+Training completed. Model saved at: ./checkpoints/seg/bilinear.pth
+  Epoch 1/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.581263 Step: 7.320000e+02
+  Epoch 2/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.208102 Step: 7.320000e+02
+  Epoch 3/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.168336 Step: 7.320000e+02
+  Epoch 4/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.152011 Step: 7.320000e+02
+  Epoch 5/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.144235 Step: 7.320000e+02

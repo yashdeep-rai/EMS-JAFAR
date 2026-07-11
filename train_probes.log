@@ -1,0 +1,12 @@
+[2026-07-11 07:59:51,336][timm.models._builder][INFO] - Loading pretrained weights from Hugging Face hub (timm/vit_small_patch14_dinov2.lvd142m)
+[2026-07-11 07:59:51,837][httpx][INFO] - HTTP Request: HEAD https://huggingface.co/timm/vit_small_patch14_dinov2.lvd142m/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[2026-07-11 07:59:51,839][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-07-11 07:59:51,840][timm.models._hub][INFO] - [timm/vit_small_patch14_dinov2.lvd142m] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+[2026-07-11 08:01:11,631][timm.models._builder][INFO] - Loading pretrained weights from Hugging Face hub (timm/vit_small_patch14_dinov2.lvd142m)
+[2026-07-11 08:01:12,156][httpx][INFO] - HTTP Request: HEAD https://huggingface.co/timm/vit_small_patch14_dinov2.lvd142m/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[2026-07-11 08:01:12,157][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-07-11 08:01:12,158][timm.models._hub][INFO] - [timm/vit_small_patch14_dinov2.lvd142m] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+[2026-07-11 11:30:26,516][timm.models._builder][INFO] - Loading pretrained weights from Hugging Face hub (timm/vit_small_patch14_dinov2.lvd142m)
+[2026-07-11 11:30:26,897][httpx][INFO] - HTTP Request: HEAD https://huggingface.co/timm/vit_small_patch14_dinov2.lvd142m/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[2026-07-11 11:30:26,898][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-07-11 11:30:26,899][timm.models._hub][INFO] - [timm/vit_small_patch14_dinov2.lvd142m] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
