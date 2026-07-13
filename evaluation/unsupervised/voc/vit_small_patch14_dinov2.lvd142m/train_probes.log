@@ -1,0 +1,11 @@
+[2026-06-24 21:39:22,851][timm.models._builder][INFO] - Loading pretrained weights from Hugging Face hub (timm/vit_small_patch14_dinov2.lvd142m)
+[2026-06-24 21:39:23,415][httpx][INFO] - HTTP Request: HEAD https://huggingface.co/timm/vit_small_patch14_dinov2.lvd142m/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[2026-06-24 21:39:23,419][timm.models._hub][INFO] - [timm/vit_small_patch14_dinov2.lvd142m] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+[2026-06-24 21:39:39,770][timm.models._builder][INFO] - Loading pretrained weights from Hugging Face hub (timm/vit_small_patch14_dinov2.lvd142m)
+[2026-06-24 21:39:40,299][httpx][INFO] - HTTP Request: HEAD https://huggingface.co/timm/vit_small_patch14_dinov2.lvd142m/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[2026-06-24 21:39:40,300][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-06-24 21:39:40,302][timm.models._hub][INFO] - [timm/vit_small_patch14_dinov2.lvd142m] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.
+[2026-06-24 21:39:53,234][timm.models._builder][INFO] - Loading pretrained weights from Hugging Face hub (timm/vit_small_patch14_dinov2.lvd142m)
+[2026-06-24 21:39:53,768][httpx][INFO] - HTTP Request: HEAD https://huggingface.co/timm/vit_small_patch14_dinov2.lvd142m/resolve/main/model.safetensors "HTTP/1.1 302 Found"
+[2026-06-24 21:39:53,769][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-06-24 21:39:53,773][timm.models._hub][INFO] - [timm/vit_small_patch14_dinov2.lvd142m] Safe alternative available for 'pytorch_model.bin' (as 'model.safetensors'). Loading weights using safetensors.

@@ -1,6 +1,6 @@
 
 ==================================================
-Starting at 2026-07-11 08:01:08
+Starting at 2026-07-11 13:47:20
 Configuration:
 model:
   _target_: src.upsampler.JAFAR
@@ -10,11 +10,16 @@ model:
   feature_dim: ${get_feature:${backbone.name}}
   kernel_size: 1
   num_heads: 4
+  num_layers_fused: 3
   name: jafar
 backbone:
   _target_: src.backbone.PretrainedViTWrapper
   name: vit_small_patch14_dinov2.lvd142m
   norm: true
+  'n':
+  - 5
+  - 8
+  - 11
 optimizer:
   _target_: torch.optim.AdamW
   lr: 0.0005
@@ -59,7 +64,7 @@ project_root: ${hydra:runtime.cwd}
 dataroot: ${project_root}/data/imagenet
 bfloat16: true
 ratio: random
-sanity: true
+sanity: false
 dataset_evaluation:
   _target_: evaluation.dataset.voc.VOCDataset
   root: ${project_root}/data/
@@ -71,8 +76,8 @@ dataset_evaluation:
   tag: voc
 eval:
   task: seg
-  model_ckpt: ./output/jafar/vit_small_patch14_dinov2.lvd142m.pth
-num_epochs: 20
+  model_ckpt: null
+num_epochs: 5
 target_size: ${img_size}
 metrics:
   seg:
@@ -86,11 +91,9 @@ Using device: cuda
 Processing seg task:
 
 Image size: 448
-Loaded model from checkpoint: 
-./output/jafar/vit_small_patch14_dinov2.lvd142m.pth
 Train Dataset size: 1464
 Val Dataset size: 1449
 Loading classifier from ./checkpoints/seg/jafar.pth
 Loaded classifier from checkpoint: ./checkpoints/seg/jafar.pth
 Evaluating model...
-Results: {'accuracy': 0.9490667581558228, 'iou': 0.8973158597946167}
+Results: {'accuracy': 0.6510736346244812, 'iou': 0.037855371832847595}

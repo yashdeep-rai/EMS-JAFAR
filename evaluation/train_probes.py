@@ -474,7 +474,7 @@ def main(cfg):
     model = instantiate(cfg.model).to(device)
     if cfg.eval.model_ckpt:
         checkpoint = torch.load(cfg.eval.model_ckpt)
-        if cfg.model.name == "jafar":
+        if "jafar" in cfg.model.name:
             model.load_state_dict(checkpoint["jafar"], strict=False)
         log_print(f"[green]Loaded model from checkpoint: {cfg.eval.model_ckpt}[/green]")
     else:

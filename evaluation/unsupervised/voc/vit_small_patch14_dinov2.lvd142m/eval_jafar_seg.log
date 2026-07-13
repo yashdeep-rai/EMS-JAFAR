@@ -1,6 +1,6 @@
 
 ==================================================
-Starting at 2025-06-06 08:45:32
+Starting at 2026-06-24 21:39:52
 Configuration:
 model:
   _target_: src.upsampler.JAFAR
@@ -52,12 +52,14 @@ val_dataloader:
     _target_: utils.training.seed_worker
   num_workers: 8
   pin_memory: true
-img_size: 448
+img_size: 224
 epochs: 1
 max_steps: 100000
 project_root: ${hydra:runtime.cwd}
 dataroot: ${project_root}/data/imagenet
-sanity: false
+bfloat16: true
+ratio: random
+sanity: true
 dataset_evaluation:
   _target_: evaluation.dataset.voc.VOCDataset
   root: ${project_root}/data/
@@ -69,7 +71,8 @@ dataset_evaluation:
   tag: voc
 eval:
   task: seg
-  model_ckpt: ./output/jafar/vit_small_patch14_dinov2.lvd142m/model.pth
+  model_ckpt: 
+/home/yashdeep/Documents/JAFAR/weights/vit_small_patch14_dinov2.lvd142m.pth
 num_epochs: 20
 target_size: ${img_size}
 metrics:
@@ -83,12 +86,12 @@ Using device: cuda
 
 Processing seg task:
 
-Image size: 448
+Image size: 224
 Loaded model from checkpoint: 
-./output/jafar/vit_small_patch14_dinov2.lvd142m/model.pth
+/home/yashdeep/Documents/JAFAR/weights/vit_small_patch14_dinov2.lvd142m.pth
 Train Dataset size: 1464
 Val Dataset size: 1449
 Loading classifier from ./checkpoints/seg/jafar.pth
 Loaded classifier from checkpoint: ./checkpoints/seg/jafar.pth
 Evaluating model...
-Results: {'accuracy': 0.962519645690918, 'iou': 0.844458818435669}
+Results: {'accuracy': 0.9640714526176453, 'iou': 0.9271166920661926}

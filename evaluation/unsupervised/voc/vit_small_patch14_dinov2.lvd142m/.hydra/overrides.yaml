@@ -1,0 +1,6 @@
+- eval.task=seg
+- dataset_evaluation=voc
+- backbone.name=vit_small_patch14_dinov2.lvd142m
+- eval.model_ckpt=/home/yashdeep/Documents/JAFAR/weights/vit_small_patch14_dinov2.lvd142m.pth
+- sanity=True
+- img_size=224

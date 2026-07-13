@@ -1,0 +1,162 @@
+
+==================================================
+Starting at 2026-07-12 21:24:59
+Configuration:
+model:
+  _target_: src.upsampler.JAFAR
+  input_dim: 3
+  qk_dim: 128
+  v_dim: ${model.feature_dim}
+  feature_dim: ${get_feature:${backbone.name}}
+  kernel_size: 1
+  num_heads: 4
+  name: jafar_base
+backbone:
+  _target_: src.backbone.PretrainedViTWrapper
+  name: vit_base_patch14_dinov2.lvd142m
+  norm: true
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 0.0005
+  betas:
+  - 0.9
+  - 0.999
+  weight_decay: 1.0e-05
+loss:
+  _target_: src.loss.Loss
+  loss_type: cosine_mse
+  dim: ${model.feature_dim}
+train_dataset:
+  _target_: dataloader.ImageDataset
+  root: ${dataroot}/train
+  root_cache: null
+val_dataset:
+  _target_: dataloader.ImageDataset
+  root: ${dataroot}/val
+  root_cache: null
+train_dataloader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ${dataset.train}
+  batch_size: 2
+  shuffle: true
+  worker_init_fn:
+    _target_: utils.training.seed_worker
+  num_workers: 8
+  pin_memory: true
+val_dataloader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ${dataset.val}
+  batch_size: 1
+  shuffle: true
+  worker_init_fn:
+    _target_: utils.training.seed_worker
+  num_workers: 8
+  pin_memory: true
+img_size: 224
+epochs: 1
+max_steps: 100000
+project_root: ${hydra:runtime.cwd}
+dataroot: ${project_root}/data/imagenet
+bfloat16: true
+ratio: random
+sanity: false
+dataset_evaluation:
+  _target_: evaluation.dataset.voc.VOCDataset
+  root: ${project_root}/data/
+  split: train
+  year: '2012'
+  download: false
+  include_labels: true
+  num_classes: 21
+  tag: voc
+eval:
+  task: seg
+  model_ckpt: ./output/jafar/vit_base_patch14_dinov2.lvd142m.pth
+num_epochs: 5
+target_size: ${img_size}
+metrics:
+  seg:
+    num_classes: ${dataset_evaluation.num_classes}
+  depth:
+    min_depth: 0.001
+    max_depth: 10
+
+Using device: cuda
+
+Processing seg task:
+
+Image size: 224
+Loaded model from checkpoint: ./output/jafar/vit_base_patch14_dinov2.lvd142m.pth
+Train Dataset size: 1464
+Val Dataset size: 1449
+Training classifier... ./checkpoints/seg/jafar_base.pth not found
+
+Number of optimized parameters: 16,149
+Training for 5 epochs
+
+Training model epoch 1...
+Iteration 100 - Loss: 1.532782 - LR: 4.99098e-04 - Elapsed Time: 0:00:09
+Iteration 200 - Loss: 0.975373 - LR: 4.96362e-04 - Elapsed Time: 0:00:18
+Iteration 300 - Loss: 0.763948 - LR: 4.91811e-04 - Elapsed Time: 0:00:27
+Iteration 400 - Loss: 0.636261 - LR: 4.85481e-04 - Elapsed Time: 0:00:36
+Iteration 500 - Loss: 0.546984 - LR: 4.77416e-04 - Elapsed Time: 0:00:44
+Iteration 600 - Loss: 0.491809 - LR: 4.67677e-04 - Elapsed Time: 0:00:53
+Iteration 700 - Loss: 0.449764 - LR: 4.56335e-04 - Elapsed Time: 0:01:02
+Iteration 732 - Loss: 0.436686 - LR: 4.52380e-04 - Elapsed Time: 0:01:05
+Epoch 1 Summary: Loss = 0.436686 - LR = 4.52e-04
+Evaluating model...
+Results: {'accuracy': 0.950438916683197, 'iou': 0.7995113730430603}
+Training model epoch 2...
+Iteration 100 - Loss: 0.159989 - LR: 4.39052e-04 - Elapsed Time: 0:02:22
+Iteration 200 - Loss: 0.152128 - LR: 4.24332e-04 - Elapsed Time: 0:02:31
+Iteration 300 - Loss: 0.159685 - LR: 4.08329e-04 - Elapsed Time: 0:02:40
+Iteration 400 - Loss: 0.153913 - LR: 3.91159e-04 - Elapsed Time: 0:02:49
+Iteration 500 - Loss: 0.146929 - LR: 3.72950e-04 - Elapsed Time: 0:02:58
+Iteration 600 - Loss: 0.142079 - LR: 3.53836e-04 - Elapsed Time: 0:03:07
+Iteration 700 - Loss: 0.143406 - LR: 3.33957e-04 - Elapsed Time: 0:03:16
+Iteration 732 - Loss: 0.142697 - LR: 3.27458e-04 - Elapsed Time: 0:03:19
+Epoch 2 Summary: Loss = 0.142697 - LR = 3.27e-04
+Evaluating model...
+Results: {'accuracy': 0.9566869735717773, 'iou': 0.8253341913223267}
+Training model epoch 3...
+Iteration 100 - Loss: 0.110123 - LR: 3.06795e-04 - Elapsed Time: 0:04:36
+Iteration 200 - Loss: 0.109927 - LR: 2.85714e-04 - Elapsed Time: 0:04:45
+Iteration 300 - Loss: 0.113273 - LR: 2.64370e-04 - Elapsed Time: 0:04:54
+Iteration 400 - Loss: 0.114906 - LR: 2.42919e-04 - Elapsed Time: 0:05:03
+Iteration 500 - Loss: 0.116764 - LR: 2.21522e-04 - Elapsed Time: 0:05:12
+Iteration 600 - Loss: 0.115870 - LR: 2.00333e-04 - Elapsed Time: 0:05:21
+Iteration 700 - Loss: 0.115180 - LR: 1.79511e-04 - Elapsed Time: 0:05:30
+Iteration 732 - Loss: 0.114432 - LR: 1.72950e-04 - Elapsed Time: 0:05:33
+Epoch 3 Summary: Loss = 0.114432 - LR = 1.73e-04
+Evaluating model...
+Results: {'accuracy': 0.9562970995903015, 'iou': 0.824298083782196}
+Training model epoch 4...
+Iteration 100 - Loss: 0.087414 - LR: 1.52844e-04 - Elapsed Time: 0:06:50
+Iteration 200 - Loss: 0.097266 - LR: 1.33454e-04 - Elapsed Time: 0:06:59
+Iteration 300 - Loss: 0.097414 - LR: 1.14922e-04 - Elapsed Time: 0:07:08
+Iteration 400 - Loss: 0.102431 - LR: 9.73844e-05 - Elapsed Time: 0:07:17
+Iteration 500 - Loss: 0.103668 - LR: 8.09706e-05 - Elapsed Time: 0:07:26
+Iteration 600 - Loss: 0.103961 - LR: 6.58015e-05 - Elapsed Time: 0:07:35
+Iteration 700 - Loss: 0.102981 - LR: 5.19887e-05 - Elapsed Time: 0:07:44
+Iteration 732 - Loss: 0.103034 - LR: 4.78720e-05 - Elapsed Time: 0:07:47
+Epoch 4 Summary: Loss = 0.103034 - LR = 4.77e-05
+Evaluating model...
+Results: {'accuracy': 0.9582682251930237, 'iou': 0.8311954140663147}
+Training model epoch 5...
+Iteration 100 - Loss: 0.093473 - LR: 3.60035e-05 - Elapsed Time: 0:09:04
+Iteration 200 - Loss: 0.092371 - LR: 2.57107e-05 - Elapsed Time: 0:09:13
+Iteration 300 - Loss: 0.093855 - LR: 1.70694e-05 - Elapsed Time: 0:09:22
+Iteration 400 - Loss: 0.095453 - LR: 1.01433e-05 - Elapsed Time: 0:09:31
+Iteration 500 - Loss: 0.097138 - LR: 4.98323e-06 - Elapsed Time: 0:09:40
+Iteration 600 - Loss: 0.096320 - LR: 1.62734e-06 - Elapsed Time: 0:09:49
+Iteration 700 - Loss: 0.096554 - LR: 1.00287e-07 - Elapsed Time: 0:09:59
+Iteration 732 - Loss: 0.097096 - LR: 9.20974e-11 - Elapsed Time: 0:10:01
+Epoch 5 Summary: Loss = 0.097096 - LR = 0.00e+00
+Evaluating model...
+Results: {'accuracy': 0.9583226442337036, 'iou': 0.8313298225402832}
+Training completed. Model saved at: ./checkpoints/seg/jafar_base.pth
+  Epoch 1/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.436686 Step: 7.320000e+02
+  Epoch 2/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.142697 Step: 7.320000e+02
+  Epoch 3/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.114432 Step: 7.320000e+02
+  Epoch 4/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.103034 Step: 7.320000e+02
+  Epoch 5/5 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% Loss: 0.097096 Step: 7.320000e+02
